@@ -37,11 +37,11 @@
                     <input type="text" id="cliente" name="cliente" placeholder="Cliente"/>
                 </div>
                 <div>
-                    <input type="date" id="inicio" maxlength="10" name="inicio" placeholder="Data de Início"/>
-                    <input type="date" id="fim" maxlength="10" name="fim" placeholder="Data Final"/>
-                    <input type="number" id="numero" name="numero" placeholder="Investimento por dia"/>
+                    <input type="date" id="inicio" maxlength="10" name="data-inicio" placeholder="Data de Início"/>
+                    <input type="date" id="fim" maxlength="10" name="data-final" placeholder="Data Final"/>
+                    <input type="number" id="investimento" name="numero" placeholder="Investimento por dia"/>
                 </div>
-                <input type="submit" value="Cadastrar" class="botao"/>
+                <input type="button" onclick="cadastrar();" value="Cadastrar" class="botao"/>
             </form>
         </div>
         <div class="resultados">
@@ -66,46 +66,9 @@
                     <th>Cliques</th>
                     <th>Compartilhamentos</th>
                 </tr>
-                <tr>
-                    <td>Meu anuncio</td>
-                    <td>Meu cliente</td>
-                    <td>R$ 100,00</td>
-                    <td>10</td>
-                    <td>10.000</td>
-                    <td>1.000</td>
-                </tr>
-                <tr>
-                    <td>Meu anuncio</td>
-                    <td>Meu cliente</td>
-                    <td>R$ 100,00</td>
-                    <td>10</td>
-                    <td>10.000</td>
-                    <td>1.000</td>
-                </tr>
-                <tr>
-                    <td>Meu anuncio</td>
-                    <td>Meu cliente</td>
-                    <td>R$ 100,00</td>
-                    <td>10</td>
-                    <td>10.000</td>
-                    <td>1.000</td>
-                </tr>
-                <tr>
-                    <td>Meu anuncio</td>
-                    <td>Meu cliente</td>
-                    <td>R$ 100,00</td>
-                    <td>10</td>
-                    <td>10.000</td>
-                    <td>1.000</td>
-                </tr>
-                <tr>
-                    <td>Meu anuncio</td>
-                    <td>Meu cliente</td>
-                    <td>R$ 100,00</td>
-                    <td>10</td>
-                    <td>10.000</td>
-                    <td>1.000</td>
-                </tr>
+                <tbody id="lista-conteudo">
+
+                </tbody>
             </table>
         </div>
         <div class="resultado">
