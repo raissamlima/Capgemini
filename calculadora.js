@@ -1,4 +1,7 @@
+// Variaveis
 var anuncios = new Array();
+
+// Calculos
 
 function calculaNumeroDeVisualizacoes(numeroDeCompartilhamentos) {
     return numeroDeCompartilhamentos * 40;
@@ -13,7 +16,7 @@ function calcularAlcance(valorPago) {
 
 function calcularCompartilhamento(valorPago) {
     var numeroDeCliques = calcularCliques(valorPago);
-    return numeroDeCliques * 3 / 100;
+    return numeroDeCliques * 3 / 20;
 }
 
 function calcularCliques(valorPago) {
@@ -27,6 +30,8 @@ function quantidadeDeDias(dataInicio, dataFinal) {
     return dias;
 }
 
+// Cadastro
+
 function cadastrar() {
     let form = document.getElementById('cadastro');
     
@@ -36,19 +41,26 @@ function cadastrar() {
     let dataFinal = Date.parse(form.elements['data-final'].value);
     let investimento = form.elements['investimento'].value;
 
+    if(cadastrarAnuncio(nome, cliente, dataInicio, dataFinal, investimento)) {
+        form.reset();
+        document.getElementById('filtro').reset();
+    }
+}
+
+function cadastrarAnuncio(nome, cliente, dataInicio, dataFinal, investimento) {
     if(nome.length == 0 || cliente.length == 0 || investimento.length == 0) {
         alert("Preencha todos os campos!");
-        return
+        return false;
     }
 
     if(isNaN(dataInicio) || isNaN(dataFinal)) {
         alert("Data inválida!");
-        return
+        return false;
     } 
 
     if(dataInicio > dataFinal) {
         alert("A data de inicio deve ser menor ou igual a data final");
-        return
+        return false;
     }
 
     let totalDeDias = quantidadeDeDias(dataInicio, dataFinal);
@@ -70,9 +82,12 @@ function cadastrar() {
 
     anuncios.push(anuncio);
 
-    form.reset();
     atualizaLista(anuncios);
+
+    return true;
 }
+
+// Filtrar lista
 
 function filtrar() {
     let form = document.getElementById('filtro');
@@ -80,6 +95,11 @@ function filtrar() {
     let cliente = form.elements['cliente'].value;
     let dataInicio = Date.parse(form.elements['data-inicio'].value);
     let dataFinal = Date.parse(form.elements['data-final'].value);
+
+    filtrarAnuncios(cliente, dataInicio, dataFinal);
+}
+
+function filtrarAnuncios(cliente, dataInicio, dataFinal) {
 
     if(!isNaN(dataInicio) && !isNaN(dataFinal)) {
         if(dataInicio > dataFinal) {
@@ -89,16 +109,47 @@ function filtrar() {
     } 
 
     var listaFiltrada = new Array();
+    listaFiltrada = filtrarPorCliente(anuncios, cliente);
+    listaFiltrada = filtrarPorData(listaFiltrada, dataInicio, dataFinal);
 
-    for(var i = 0; i < anuncios.length; i++) {
-        if(anuncios[i].cliente.includes(cliente)){
-            listaFiltrada.push(anuncios[i]);
+    atualizaLista(listaFiltrada);
+}
+
+function filtrarPorCliente(lista, cliente) {
+    if(cliente.length == 0) {
+        return  lista;
+    }
+
+    var listaFiltrada = new Array();
+
+    for(var i = 0; i < lista.length; i++) {
+        if(lista[i].cliente.includes(cliente)){
+            listaFiltrada.push(lista[i]);
         }
     }
 
-    atualizaLista(listaFiltrada);
-
+    return listaFiltrada;
 }
+
+function filtrarPorData(lista, dataInicio, dataFinal) {
+    if(isNaN(dataInicio) || isNaN(dataFinal)) { 
+        return lista;
+    }else if(dataInicio > dataFinal) {
+        return lista;
+    }
+
+    var listaFiltrada = new Array();
+
+    for(var i = 0; i < lista.length; i++) {
+        if(lista[i].dataInicio >= dataInicio && lista[i].dataInicio <= dataFinal){
+            listaFiltrada.push(lista[i]);
+        }
+    }
+
+    return listaFiltrada;
+}
+
+// Interface
 
 function atualizaLista(anuncios) {
 
@@ -117,6 +168,3 @@ function gerarAnuncioHtml(anuncio) {
     let anuncioHtml = "<tr><td>" + anuncio.nome + "</td><td>" + anuncio.cliente + "</td><td>" + anuncio.investimento + "</td><td>" + anuncio.visualizacoes + "</td><td>" + anuncio.cliques + "</td><td>" + anuncio.compartilhamentos + "</td></tr>";
     return anuncioHtml;
 }
-
-var teste = calcularAlcance(7.40); 
-console.log('O valor é: ' + teste);
